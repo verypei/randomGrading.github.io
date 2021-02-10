@@ -1,0 +1,10 @@
+innerText = untuk mengambil data atau tulisan yg sudah ada dari sebuah html tag;
+innerHTML =  untuk mengganti atau mengisi inner dari sebuah html tag;
+
+//EVENTS
+onclink = ketika page mendeteksi sebuah aktivitas klik;
+onload = sebuah fungsi atau aktivitas yg akan otomatis dijalankan ketika page loading;
+onchange = sebuah fungsi untuk untuk mendeteksi apabila ada perubahan dalah sebuah tag HTML dan mengambil response tertentu;
+
+//UTILITY
+e.clientX,,, E.clientY adalah untuk menentukan titik koordinat dari mouse
