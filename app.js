@@ -1,4 +1,4 @@
-async function setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC) {
+function setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC) {
   let finalArray = [];
   let limit = Math.floor(jumlahInstruktur / jumlahSoalLC);
   let counter = 0;
@@ -19,7 +19,7 @@ async function setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, 
 }
 
 
-async function makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur) {
+function makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur) {
 
   // batas no absen
   let noAbsenAkhir = ((jumlahSiswa + noUrut) - 1);
@@ -55,7 +55,7 @@ async function makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumla
 
 
 
-async function myFunction() {
+function myFunction() {
   console.log("----->");
   // get all value
   let judulGrading = document.getElementById("judulGrading").value;
@@ -64,15 +64,15 @@ async function myFunction() {
   let jumlahSoalLC = Number(document.getElementById("jumlahSoal").value);
   const noUrut = Number(document.getElementById("noUrut").value);
   let jumlahInstruktur = listInstruktur.length;
-  let doubleArrayListInstruktur = await setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC);
-  let obj = await makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur);
+  let doubleArrayListInstruktur = setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC);
+  let obj = makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur);
   // document.getElementById("hasilAcak").value = JSON.stringify(obj, null, 1);
   return [obj, doubleArrayListInstruktur];
 }
 
 // let result = myFunction();
 
-async function setUpInstructorName(obj, arr) {
+function setUpInstructorName(obj, arr) {
   console.log("setup", arr)
   for (const key in obj) {
     let counter = 0;
@@ -93,10 +93,11 @@ async function setUpInstructorName(obj, arr) {
   return obj;
 }
 
-async function finalRandom() {
-  let temp = await myFunction();
-  // let hasil = await setUpInstructorName(temp[0],temp[1]);
-  console.log("temp", temp)
+function finalRandom() {
+  let temp = myFunction();
+  return temp
+  // let hasil;
+  // console.log(temp)
   // setTimeout(() => {
   //   hasil = setUpInstructorName(temp[0], temp[1])
   //   // document.getElementById("hasilAcak").value = JSON.stringify(temp, null, 1);
@@ -105,5 +106,13 @@ async function finalRandom() {
   // setTimeout(() => {
   //   console.log(hasil)
   // }, 5000)
-  // console.log(hasil)
+}
+
+function finalRandom1(){
+  let temp = finalRandom()
+  let [obj,doubleArray] = temp
+  setTimeout(()=>{
+    let result = setUpInstructorName(obj,doubleArray)
+    console.table(result)
+  },3000)
 }
