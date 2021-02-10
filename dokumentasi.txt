@@ -2,7 +2,7 @@
 1. jumlah instruktur selalu lbh banyak dari student.
 2. soal LC antara 3-4 soal.
 3. susunan buddy berdasarkan abjad instruktur bukan student.
-4. no urut student tidak selalu dimulai dai 1.
+4. no urut student tidak selalu dimulai dari 1.
 5. instruktur y grading tidak boleh mengrading buddy nya sendiri.
 6. grading tidak bsa campur,, hanya sejenis.
 7. pembagian berdasarkan no absensi.contoh : 4-12..soal LC1-1

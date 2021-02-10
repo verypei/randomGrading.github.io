@@ -13,8 +13,7 @@ function setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSo
           counter++;
         }
       } 
-      console.log(tempArray,"---->");
-      finalArray.push(tempArray);
+      finalArray.push(tempArray);//disni gagal
   }
   return finalArray;
 }
@@ -53,24 +52,11 @@ function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktu
   return obj;
 }
 
-function setUpInstructorName(obj,arr){
-  for (const key in obj) {
-    let counter = 0;
-    for (let i = 0; i < obj[key].length; i++) {
-        for (const key2 in obj[key][0]) {
-            let indexRandom = Math.floor(Math.random()*arr[counter].length);
-            let namaGrader = arr[counter][indexRandom];
-            obj[key][0][key2] = namaGrader;
-            arr[counter] = arr[counter].filter(el => el!==namaGrader);
-            counter++;
-        }
-    }
-  }
-  return obj;
-}
+
 
 
 function myFunction(){
+  console.log("----->");
   // get all value
   let judulGrading = document.getElementById("judulGrading").value;
   let jumlahSiswa = Number(document.getElementById("jumlahSiswa").value);
@@ -80,10 +66,38 @@ function myFunction(){
   let jumlahInstruktur = listInstruktur.length;
   let doubleArrayListInstruktur = setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC);
   let obj = makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur);
-  let finalResult = setUpInstructorName(obj,doubleArrayListInstruktur);
-  console.log(obj,"---->",doubleArrayListInstruktur,'---->');
+  return [obj,doubleArrayListInstruktur];
 }
 
+let result = myFunction();
+
+function setUpInstructorName(obj,arr){
+  for (const key in obj) {
+    let counter = 0;
+    for (let i = 0; i < obj[key].length; i++) {
+        for (const key2 in obj[key][0]) {
+            let indexRandom = Math.floor(Math.random()*3);
+            let namaGrader = arr[counter][indexRandom];
+            while(!namaGrader){
+                indexRandom = Math.floor(Math.random()*3);
+                namaGrader = arr[counter][indexRandom];
+            }
+            obj[key][0][key2] = namaGrader;
+            arr[counter] = arr[counter].filter((el)=>{return el!==namaGrader}); 
+            counter++;
+        }
+    }
+  }
+  return obj;
+}
+
+let final = setUpInstructorName(result[0],result[1]);
+
+function finalResult(end){
+    return end;
+}
+
+console.log(finalResult(final));
 
 
 
