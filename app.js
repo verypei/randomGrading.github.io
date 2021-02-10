@@ -1,28 +1,28 @@
-function setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC){
+async function setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC) {
   let finalArray = [];
-  let limit = Math.floor(jumlahInstruktur/jumlahSoalLC);
+  let limit = Math.floor(jumlahInstruktur / jumlahSoalLC);
   let counter = 0;
   for (let i = 0; i < limit; i++) {
     let tempArray = [];
-      for (let j = 0; j < jumlahSoalLC; j++) {
-        if(counter > listInstruktur.length-1){
-          break;
-        }
-        else{
-          tempArray.push(listInstruktur[counter]);
-          counter++;
-        }
-      } 
-      finalArray.push(tempArray);//disni gagal
+    for (let j = 0; j < jumlahSoalLC; j++) {
+      if (counter > listInstruktur.length - 1) {
+        break;
+      }
+      else {
+        tempArray.push(listInstruktur[counter]);
+        counter++;
+      }
+    }
+    finalArray.push(tempArray);//disni gagal
   }
   return finalArray;
 }
 
 
-function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur){
+async function makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur) {
 
   // batas no absen
-  let noAbsenAkhir = ((jumlahSiswa+noUrut)-1);
+  let noAbsenAkhir = ((jumlahSiswa + noUrut) - 1);
 
   // template obj akhir
   let obj = {};
@@ -32,21 +32,21 @@ function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktu
 
   for (let i = 0; i < jumlahSoalLC; i++) {//looping jumlah soal LC
     let absenAwal = noUrut;//no absen awal
-    let key = `grading ${judulGrading} soal no ${i+1}`;//key objek akhir
+    let key = `grading ${judulGrading} soal no ${i + 1}`;//key objek akhir
     obj[key] = [];
-    for (let j = 0; j < Math.ceil(jumlahInstruktur/jumlahSoalLC); j++) {//looping untuk pembagian grading
-      let absenAkhir = absenAwal+limit;//limit absen akhir
-      if(absenAwal > noAbsenAkhir){
+    for (let j = 0; j < Math.ceil(jumlahInstruktur / jumlahSoalLC); j++) {//looping untuk pembagian grading
+      let absenAkhir = absenAwal + limit;//limit absen akhir
+      if (absenAwal > noAbsenAkhir) {
         absenAwal = noUrut;
       }
-      if(absenAkhir > noAbsenAkhir){
+      if (absenAkhir > noAbsenAkhir) {
         absenAkhir = noAbsenAkhir;
       }
       let objUrutanAbsen = {};
       let urutanAbsen = `${absenAwal}-${absenAkhir}`;
       objUrutanAbsen[urutanAbsen] = "";
       obj[key].push(objUrutanAbsen);
-      absenAwal = absenAkhir+1;
+      absenAwal = absenAkhir + 1;
     }
   }
   return obj;
@@ -55,7 +55,7 @@ function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktu
 
 
 
-function myFunction(){
+async function myFunction() {
   console.log("----->");
   // get all value
   let judulGrading = document.getElementById("judulGrading").value;
@@ -64,46 +64,46 @@ function myFunction(){
   let jumlahSoalLC = Number(document.getElementById("jumlahSoal").value);
   const noUrut = Number(document.getElementById("noUrut").value);
   let jumlahInstruktur = listInstruktur.length;
-  let doubleArrayListInstruktur = setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC);
-  let obj = makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur);
-  return [obj,doubleArrayListInstruktur];
+  let doubleArrayListInstruktur = await setupDoubleArrayListInstruktur(listInstruktur, jumlahInstruktur, jumlahSoalLC);
+  let obj = await makeObject(judulGrading, jumlahSoalLC, jumlahSiswa, noUrut, jumlahInstruktur);
+  // document.getElementById("hasilAcak").value = JSON.stringify(obj, null, 1);
+  return [obj, doubleArrayListInstruktur];
 }
 
-let result = myFunction();
+// let result = myFunction();
 
-function setUpInstructorName(obj,arr){
+async function setUpInstructorName(obj, arr) {
+  console.log("setup", arr)
   for (const key in obj) {
     let counter = 0;
     for (let i = 0; i < obj[key].length; i++) {
-        for (const key2 in obj[key][0]) {
-            let indexRandom = Math.floor(Math.random()*3);
-            let namaGrader = arr[counter][indexRandom];
-            while(!namaGrader){
-                indexRandom = Math.floor(Math.random()*3);
-                namaGrader = arr[counter][indexRandom];
-            }
-            obj[key][0][key2] = namaGrader;
-            arr[counter] = arr[counter].filter((el)=>{return el!==namaGrader}); 
-            counter++;
+      for (const key2 in obj[key][0]) {
+        let indexRandom = Math.floor(Math.random() * 3);
+        let namaGrader = arr[counter][indexRandom];
+        while (!namaGrader) {
+          indexRandom = Math.floor(Math.random() * 3);
+          namaGrader = arr[counter][indexRandom];
         }
+        obj[key][0][key2] = namaGrader;
+        arr[counter] = arr[counter].filter((el) => { return el !== namaGrader });
+        counter++;
+      }
     }
   }
   return obj;
 }
 
-let final = setUpInstructorName(result[0],result[1]);
+async function finalRandom() {
+  let temp = await myFunction();
+  // let hasil = await setUpInstructorName(temp[0],temp[1]);
+  console.log("temp", temp)
+  // setTimeout(() => {
+  //   hasil = setUpInstructorName(temp[0], temp[1])
+  //   // document.getElementById("hasilAcak").value = JSON.stringify(temp, null, 1);
 
-function finalResult(end){
-    return end;
+  // }, 3000)
+  // setTimeout(() => {
+  //   console.log(hasil)
+  // }, 5000)
+  // console.log(hasil)
 }
-
-console.log(finalResult(final));
-
-
-
-
-
-
-
-
-
