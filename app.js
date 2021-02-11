@@ -1,4 +1,5 @@
 function setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC){
+  // console.log("entering final 2 array");
   let finalArray = [];
   let limit = Math.floor(jumlahInstruktur/jumlahSoalLC);
   let counter = 0;
@@ -18,9 +19,7 @@ function setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSo
   return finalArray;
 }
 
-
 function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur){
-
   // batas no absen
   let noAbsenAkhir = ((jumlahSiswa+noUrut)-1);
 
@@ -52,26 +51,37 @@ function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktu
   return obj;
 }
 
+// function makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur){
+//   let noAwal = noUrut;
+//   let obj = {};
+//   let limit = Math.ceil(jumlahSiswa / jumlahSoalLC);
+//   let batasAkhir = jumlahSiswa+noAwal;
+//   for (let i = 0; i < jumlahSoalLC; i++) {
+//       let counter = 0;
+//       let key  = `${judulGrading} ${i+1}`
+//       obj[key] = [];
+//       let objRange = {}
+//       for (let j = 0; j < Math.floor(jumlahInstruktur/jumlahSoalLC); j++) {
+//           let x = noUrut+limit
+//           if(x > batasAkhir){
+//               x = batasAkhir;
+//           }
+//           let range = `${noUrut}-${x}`;
+//           objRange[range] = "";
+//           noUrut = (x+1);
+//           if(noUrut > batasAkhir){
+//               noUrut = noAwal;
+//           }
+//           counter++;
+//       }
+//       obj[key].push(objRange);
+//   }
+//   return obj;
+// }
 
-
-
-function myFunction(){
-  console.log("----->");
-  // get all value
-  let judulGrading = document.getElementById("judulGrading").value;
-  let jumlahSiswa = Number(document.getElementById("jumlahSiswa").value);
-  let listInstruktur = document.getElementById("listInstruktur").value.split('\n');
-  let jumlahSoalLC = Number(document.getElementById("jumlahSoal").value);
-  const noUrut = Number(document.getElementById("noUrut").value);
-  let jumlahInstruktur = listInstruktur.length;
-  let doubleArrayListInstruktur = setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC);
-  let obj = makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur);
-  return [obj,doubleArrayListInstruktur];
-}
-
-let result = myFunction();
 
 function setUpInstructorName(obj,arr){
+  // console.log(arr,"---array dalam set up instructor");
   for (const key in obj) {
     let counter = 0;
     for (let i = 0; i < obj[key].length; i++) {
@@ -91,19 +101,43 @@ function setUpInstructorName(obj,arr){
   return obj;
 }
 
-let final = setUpInstructorName(result[0],result[1]);
 
-function finalResult(end){
-    return end;
+function myFunction(){
+  console.log("----->");
+  // get all value
+  let judulGrading = document.getElementById("judulGrading").value;
+  let jumlahSiswa = Number(document.getElementById("jumlahSiswa").value);
+  let listInstruktur = document.getElementById("listInstruktur").value.split('\n').reverse();
+  let jumlahSoalLC = Number(document.getElementById("jumlahSoal").value);
+  const noUrut = Number(document.getElementById("noUrut").value);
+  let jumlahInstruktur = listInstruktur.length;
+  let obj = makeObject(judulGrading,jumlahSoalLC,jumlahSiswa,noUrut,jumlahInstruktur);
+  let doubleArrayListInstruktur = setupDoubleArrayListInstruktur(listInstruktur,jumlahInstruktur,jumlahSoalLC);
+  // console.log(listInstruktur,"--->");
+  return [obj,doubleArrayListInstruktur];
 }
 
-console.log(finalResult(final));
-
-
-
-
-
-
-
-
-
+function finalRandom(){
+  let x = myFunction();
+  let obj = x[0];
+  let arr = x[1]
+  for (const key in obj) {
+    let counter = 0;
+    for (let i = 0; i < obj[key].length; i++) {
+      for (const key2 in obj[key][i]) {
+        console.log(arr[counter].length-1,"----");
+        let indexRandom = Math.floor(Math.random()*arr[counter].length-1);
+        let namaGrader = arr[counter][indexRandom];
+        while(namaGrader === undefined){
+          indexRandom = Math.floor(Math.random()*3);
+          namaGrader = arr[counter][indexRandom];
+        }
+        obj[key][i][key2] = namaGrader;
+        arr[counter] = arr[counter].filter((el)=>{return el!==namaGrader}); 
+        counter++;
+      }
+    }
+  }
+  console.log(obj);
+  return obj;
+}
